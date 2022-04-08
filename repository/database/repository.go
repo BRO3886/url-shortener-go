@@ -44,10 +44,16 @@ func (r *mongoRepo) Find(code string) (*shortener.Redirect, error) {
 }
 
 func NewRepository(mongoURL, database string, timeout int) (shortener.RedirectRepository, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(timeout)*time.Second)
-	defer cancel()
+	// ctx, cancel := context.WithTimeout(context.Background(), 10*time.Duration(timeout)*time.Second)
+	// defer cancel()
+	ctx := context.Background()
 
 	client, err := newMongoClient(ctx, mongoURL)
+	if err != nil {
+		return nil, err
+	}
+
+	err = client.Connect(ctx)
 	if err != nil {
 		return nil, err
 	}

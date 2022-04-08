@@ -5,7 +5,7 @@ redis:
 mongo:
   addr: "localhost:27017"
   db: "test"
-  user: ""
-  password: ""
+  user: "root"
+  password: "example"
   database: "urlshortener"
   timeout: 10000
