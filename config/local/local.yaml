@@ -1,0 +1,11 @@
+redis:
+  addr: "localhost:6379"
+  password: ""
+
+mongo:
+  addr: "localhost:27017"
+  db: "test"
+  user: ""
+  password: ""
+  database: "urlshortener"
+  timeout: 10000

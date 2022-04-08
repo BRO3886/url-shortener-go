@@ -1,0 +1,49 @@
+version: '3'
+
+networks:
+  internal:
+    external: false
+  web:
+    external: true
+    name: web
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "url-shortener"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - ENV_TYPE=local
+    networks:
+      - internal
+      - web
+    ports:
+      - "8080:8080"
+    restart: always
+  mongo:
+    ports:
+      - "27017:27017"
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - urlshortener:/var/lib/mongo
+    networks:
+      - internal
+  redis:
+    ports:
+      - "6379:6379"
+    image: redis
+    restart: always
+    volumes:
+      - urlshortener:/var/lib/redis
+    networks:
+      - internal
+volumes:
+  urlshortener:
